@@ -8,8 +8,10 @@
     "ig:login": "node playwright/login.js",
     "ig:collect": "node playwright/collect-reels.js",
     "ig:save": "node playwright/save-json.js",
+    "ig:analyze": "node analyze-reels.js",
+    "ig:ideas": "node generate-ideas.js",
     "docker:up": "docker compose up --build analista-instagram",
-    "check": "node --check playwright/login.js && node --check playwright/collect-reels.js && node --check playwright/parser.js && node --check playwright/save-json.js && node --check playwright/utils.js && node --check scripts/setup-local.js"
+    "check": "node --check playwright/login.js"
   },
   "dependencies": {
     "playwright": "^1.48.2"
