@@ -1,0 +1,17 @@
+﻿{
+  "name": "analista-instagram-ai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup:local": "node scripts/setup-local.js",
+    "ig:login": "node playwright/login.js",
+    "ig:collect": "node playwright/collect-reels.js",
+    "ig:save": "node playwright/save-json.js",
+    "docker:up": "docker compose up --build analista-instagram",
+    "check": "node --check playwright/login.js && node --check playwright/collect-reels.js && node --check playwright/parser.js && node --check playwright/save-json.js && node --check playwright/utils.js && node --check scripts/setup-local.js"
+  },
+  "dependencies": {
+    "playwright": "^1.48.2"
+  }
+}

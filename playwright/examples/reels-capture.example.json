@@ -1,0 +1,29 @@
+﻿{
+  "module": "ANALISTA_INSTAGRAM",
+  "collected_at": "2026-05-14T15:45:00.000Z",
+  "target_profiles": ["perfil_exemplo"],
+  "count": 1,
+  "reels": [
+    {
+      "source": "instagram_playwright",
+      "profile": "perfil_exemplo",
+      "reel_url": "https://www.instagram.com/reel/EXEMPLO123/",
+      "collected_at": "2026-05-14T15:45:00.000Z",
+      "metrics": {
+        "views": 18420,
+        "likes": 1320,
+        "comments": 87
+      },
+      "hashtags": ["#ia", "#reels", "#automacao"],
+      "description": "3 ideias de conteúdo com IA para postar ainda hoje. #ia #reels #automacao",
+      "music": "Original audio",
+      "published_at": "2026-05-14T12:10:00.000Z",
+      "duration_seconds": 18,
+      "raw": {
+        "title": "Perfil Exemplo on Instagram",
+        "og_description": "1,320 likes, 87 comments - Perfil Exemplo on May 14, 2026: 3 ideias de conteúdo com IA...",
+        "parser_note": "Exemplo realístico do formato final. Substituído por dados reais quando o coletor roda autenticado."
+      }
+    }
+  ]
+}

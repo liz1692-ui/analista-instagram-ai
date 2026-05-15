@@ -1,0 +1,6 @@
+﻿.env
+node_modules/
+playwright/.auth/*
+!playwright/.auth/.gitkeep
+playwright/data/*.json
+!playwright/data/.gitkeep
