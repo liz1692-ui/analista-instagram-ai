@@ -1,323 +1,155 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Gerador JSON VEO3</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inova AI — Central de Agentes</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; }
-
-body {
-  font-family: Arial;
-  background: #020617;
-  color: white;
-  padding: 20px;
-  max-width: 720px;
-  margin: auto;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.box {
-  background: #0f172a;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 14px;
-}
-
-.box h3 {
-  margin: 0 0 10px 0;
-  font-size: 14px;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-input, select {
-  width: 100%;
-  padding: 12px;
-  margin-top: 8px;
-  border-radius: 10px;
-  border: none;
-  background: #1e293b;
-  color: white;
-  font-size: 14px;
-}
-
-input:first-child { margin-top: 0; }
-
-.btn-group {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-button {
-  flex: 1;
-  min-width: 100px;
-  padding: 12px;
-  margin-top: 0;
-  border-radius: 10px;
-  border: 2px solid transparent;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 13px;
-  transition: border 0.15s, opacity 0.15s;
-  color: white;
-  opacity: 0.7;
-}
-
-button.ativo {
-  border: 2px solid white;
-  opacity: 1;
-}
-
-button:not(.ativo):hover { opacity: 0.9; }
-
-.normal   { background: #3b82f6; }
-.engracado{ background: #f59e0b; color: #000; }
-.treta    { background: #ef4444; }
-.viral    { background: #8b5cf6; }
-.lite     { background: #22c55e; color: #000; }
-.fast     { background: #ef4444; }
-.copiar   { background: #1e293b; }
-.limpar   { background: #334155; }
-
-textarea {
-  width: 100%;
-  height: 480px;
-  margin-top: 14px;
-  border-radius: 10px;
-  padding: 14px;
-  background: #020617;
-  color: #22c55e;
-  font-family: monospace;
-  font-size: 12px;
-  border: 1px solid #1e293b;
-  resize: vertical;
-}
-
-#status {
-  text-align: center;
-  font-size: 12px;
-  color: #64748b;
-  margin-top: 6px;
-  height: 18px;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080808;--bg1:#0f0f0f;--bg2:#141414;--border:#1f1f1f;--border2:#2a2a2a;--text:#e8e8e8;--text2:#666;--text3:#333;--green:#22c55e;--green-bg:rgba(34,197,94,0.08);--green-border:rgba(34,197,94,0.15);--purple:#a78bfa;--purple-bg:rgba(167,139,250,0.08);--purple-border:rgba(167,139,250,0.15)}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:0}
+.wrapper{max-width:900px;margin:0 auto;padding:40px 24px 80px}
+header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:48px;padding-bottom:28px;border-bottom:.5px solid var(--border)}
+.logo{font-family:'Space Mono',monospace;font-size:13px;color:var(--text2);letter-spacing:.05em}
+.logo span{color:var(--green)}
+.status-pill{display:flex;align-items:center;gap:6px;background:var(--green-bg);border:.5px solid var(--green-border);border-radius:99px;padding:5px 12px;font-size:11px;color:var(--green);font-family:'Space Mono',monospace}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.hero{margin-bottom:48px}
+.hero h1{font-family:'Space Mono',monospace;font-size:clamp(22px,4vw,32px);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:10px;letter-spacing:-.02em}
+.hero h1 .accent{color:var(--green)}
+.hero p{font-size:14px;color:var(--text2);line-height:1.6;max-width:440px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:40px}
+.stat{background:var(--bg1);border:.5px solid var(--border);border-radius:12px;padding:18px 16px}
+.stat-num{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;line-height:1;margin-bottom:6px}
+.stat-label{font-size:11px;color:var(--text2)}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.section-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
+.section-line{flex:1;height:.5px;background:var(--border)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:40px}
+.card{background:var(--bg1);border:.5px solid var(--border);border-radius:16px;padding:20px;transition:border-color .2s,transform .2s;animation:fadeUp .4s ease both}
+.card:nth-child(2){animation-delay:.08s}
+.card:nth-child(3){animation-delay:.16s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{transform:translateY(-2px)}
+.card-green:hover{border-color:var(--green-border)}
+.card-purple:hover{border-color:var(--purple-border)}
+.card-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.icon-wa{background:var(--green-bg);color:var(--green);border:.5px solid var(--green-border)}
+.icon-ig{background:var(--purple-bg);color:var(--purple);border:.5px solid var(--purple-border)}
+.card-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 8px;border-radius:99px;font-family:'Space Mono',monospace}
+.badge-ok{background:var(--green-bg);color:var(--green);border:.5px solid var(--green-border)}
+.badge-build{background:var(--purple-bg);color:var(--purple);border:.5px solid var(--purple-border)}
+.divider{border:none;border-top:.5px solid var(--border);margin:14px 0}
+.modules{display:flex;flex-direction:column;gap:8px}
+.mod{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--text2)}
+.mod-active{color:var(--purple)}
+.mod-done{color:#555}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.dot-ok{background:var(--green)}
+.dot-purple{background:var(--purple)}
+.dot-gray{background:var(--border2)}
+.progress-wrap{margin-top:14px}
+.progress-meta{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);font-family:'Space Mono',monospace;margin-bottom:6px}
+.progress{height:2px;background:var(--border2);border-radius:99px;overflow:hidden}
+.pf{height:100%;border-radius:99px}
+.pf-green{background:var(--green);width:90%}
+.pf-purple{background:var(--purple);width:57%}
+.card-btn{width:100%;margin-top:16px;background:transparent;border:.5px solid var(--border2);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--text2);font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;text-decoration:none}
+.card-btn:hover{background:var(--bg2);color:var(--text)}
+.btn-green:hover{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
+.btn-purple:hover{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-border)}
+.add-card{background:var(--bg);border:.5px dashed var(--border2);border-radius:16px;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;min-height:200px;transition:all .2s;text-decoration:none;animation:fadeUp .4s ease .24s both}
+.add-card:hover{border-color:var(--text3);background:var(--bg1)}
+.add-label{font-size:12px;color:var(--text3);font-family:'Space Mono',monospace}
+.legend{display:flex;gap:20px;margin-bottom:20px;padding:12px 16px;background:var(--bg1);border:.5px solid var(--border);border-radius:10px}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2)}
+footer{margin-top:60px;padding-top:24px;border-top:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.footer-brand{font-family:'Space Mono',monospace;font-size:11px;color:var(--text3)}
+.footer-brand span{color:var(--green)}
+.footer-time{font-family:'Space Mono',monospace;font-size:11px;color:var(--text3)}
 </style>
 </head>
-
 <body>
-
-<h2>Gerador JSON VEO3 — Podcast</h2>
-
-<div class="box">
-  <h3>Falas</h3>
-  <input id="gato"     placeholder="Fala do gato (voz Rasalgethi)">
-  <input id="cachorro" placeholder="Fala do cachorro (voz Achird)">
-  <select id="quem" style="margin-top:8px">
-    <option value="gato">Gato começa</option>
-    <option value="cachorro">Cachorro começa</option>
-  </select>
-</div>
-
-<div class="box">
-  <h3>Estilo</h3>
-  <div class="btn-group">
-    <button class="normal ativo"    onclick="setEstilo('normal',    this)">Normal</button>
-    <button class="engracado"       onclick="setEstilo('engracado', this)">Engraçado</button>
-    <button class="treta"           onclick="setEstilo('treta',     this)">Treta</button>
-    <button class="viral"           onclick="setEstilo('viral',     this)">Viral</button>
+<div class="wrapper">
+  <header>
+    <div class="logo">INOVA<span>.</span>AI // agentes</div>
+    <div class="status-pill"><span class="pulse"></span>sistema online</div>
+  </header>
+  <div class="hero">
+    <h1>Central de<br><span class="accent">agentes</span> de IA</h1>
+    <p>Todos os seus agentes em um só lugar. Monitore, controle e evolua sua infraestrutura de IA.</p>
   </div>
-</div>
-
-<div class="box">
-  <h3>Modelo VEO</h3>
-  <div class="btn-group">
-    <button class="lite" onclick="gerar('lite')">VEO LITE</button>
-    <button class="fast" onclick="gerar('fast')">VEO FAST</button>
+  <div class="stats">
+    <div class="stat"><div class="stat-num" style="color:var(--green)">2</div><div class="stat-label">Agentes criados</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--purple)">4</div><div class="stat-label">Módulos prontos</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--text2)">3</div><div class="stat-label">Em construção</div></div>
   </div>
-</div>
-
-<div class="box">
-  <div class="btn-group">
-    <button class="copiar" onclick="copiar()">Copiar JSON</button>
-    <button class="limpar" onclick="limpar()">Limpar</button>
+  <div class="section-header"><span class="section-label">Agentes ativos</span><div class="section-line"></div></div>
+  <div class="legend">
+    <div class="leg"><span class="dot dot-ok"></span>Funcionando</div>
+    <div class="leg"><span class="dot dot-purple"></span>Em construção</div>
+    <div class="leg"><span class="dot dot-gray"></span>Próximo</div>
   </div>
+  <div class="cards">
+    <div class="card card-green">
+      <div class="card-head">
+        <div class="icon icon-wa">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div><p class="card-name">WhatsApp automação</p><span class="badge badge-ok">● ativo</span></div>
+      </div>
+      <div class="divider"></div>
+      <div class="modules">
+        <div class="mod mod-done"><span class="dot dot-ok"></span>Lê agenda Google Calendar</div>
+        <div class="mod mod-done"><span class="dot dot-ok"></span>Formata mensagem do evento</div>
+        <div class="mod mod-done"><span class="dot dot-ok"></span>Dispara via WhatsApp</div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>progresso</span><span style="color:var(--green)">90%</span></div>
+        <div class="progress"><div class="pf pf-green"></div></div>
+      </div>
+      <a class="card-btn btn-green" href="https://github.com/liz1692-ui/analista-instagram-ai" target="_blank">Ver no GitHub</a>
+    </div>
+    <div class="card card-purple">
+      <div class="card-head">
+        <div class="icon icon-ig">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        <div><p class="card-name">Analista Instagram AI</p><span class="badge badge-build">⟳ construindo</span></div>
+      </div>
+      <div class="divider"></div>
+      <div class="modules">
+        <div class="mod mod-done"><span class="dot dot-ok"></span>M1 — Coleta reels e métricas</div>
+        <div class="mod mod-done"><span class="dot dot-ok"></span>M2 — Analisa padrões virais</div>
+        <div class="mod mod-done"><span class="dot dot-ok"></span>M3 — Gera ideias com Claude AI</div>
+        <div class="mod mod-done"><span class="dot dot-ok"></span>M4 — Gera roteiro profissional</div>
+        <div class="mod mod-active"><span class="dot dot-purple"></span>M5 — Prompt para Veo 3</div>
+        <div class="mod"><span class="dot dot-gray"></span>M6 — Gera vídeo com Veo 3</div>
+        <div class="mod"><span class="dot dot-gray"></span>M7 — Publica no Instagram</div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>progresso</span><span style="color:var(--purple)">57%</span></div>
+        <div class="progress"><div class="pf pf-purple"></div></div>
+      </div>
+      <a class="card-btn btn-purple" href="https://github.com/liz1692-ui/analista-instagram-ai" target="_blank">Ver no GitHub</a>
+    </div>
+    <a class="add-card" href="https://github.com/liz1692-ui" target="_blank">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span class="add-label">novo agente</span>
+    </a>
+  </div>
+  <footer>
+    <div class="footer-brand">INOVA<span>.AI</span> // Manaus, AM</div>
+    <div class="footer-time" id="clock">--:--:--</div>
+  </footer>
 </div>
-
-<textarea id="saida" readonly placeholder="O prompt JSON aparecerá aqui..."></textarea>
-<div id="status"></div>
-
 <script>
-
-let estiloAtual = "normal";
-
-const TONS = {
-  normal:    { gato: "calm natural",       cachorro: "calm natural"     },
-  engracado: { gato: "sarcastic mocking",  cachorro: "confused amused"  },
-  treta:     { gato: "provocative bold",   cachorro: "irritated tense"  },
-  viral:     { gato: "meme humor absurd",  cachorro: "shocking impactful"}
-};
-
-function setEstilo(estilo, btn) {
-  estiloAtual = estilo;
-  document.querySelectorAll(".btn-group button").forEach(b => {
-    if (b.classList.contains("normal") || b.classList.contains("engracado") ||
-        b.classList.contains("treta")  || b.classList.contains("viral")) {
-      b.classList.remove("ativo");
-    }
-  });
-  btn.classList.add("ativo");
-}
-
-function gerar(modelo) {
-
-  const gato     = document.getElementById("gato").value.trim();
-  const cachorro = document.getElementById("cachorro").value.trim();
-  const quem     = document.getElementById("quem").value;
-
-  if (!gato || !cachorro) {
-    alert("Preencha as falas do gato e do cachorro!");
-    return;
-  }
-
-  const tom = TONS[estiloAtual];
-
-  const seq = quem === "gato"
-    ? buildSeq("cat", gato, tom.gato, "dog", cachorro, tom.cachorro)
-    : buildSeq("dog", cachorro, tom.cachorro, "cat", gato, tom.gato);
-
-  const json = {
-    veo_model: modelo === "lite" ? "VEO_LITE" : "VEO_FAST",
-    style: estiloAtual,
-    scene: {
-      type: "podcast_studio",
-      lighting: "warm cinematic amber",
-      background: "blurred dark studio bokeh",
-      props: ["two microphones", "two black podcast mugs", "desk"],
-      realism: "photorealistic"
-    },
-    camera: {
-      shot: "fixed medium shot",
-      cuts: false,
-      zoom: false,
-      pan: false,
-      movement: false,
-      duration_seconds: 8
-    },
-    characters: [
-      {
-        id: "character_LEFT",
-        position: "LEFT",
-        species: "realistic gray cat",
-        appearance: "real animal anatomy, sitting upright at desk",
-        clothes: false,
-        accessories: false,
-        humanization: false,
-        voice_id: "Rasalgethi",
-        appearance_locked: true
-      },
-      {
-        id: "character_RIGHT",
-        position: "RIGHT",
-        species: "realistic caramel dog",
-        appearance: "real animal anatomy, sitting upright at desk",
-        clothes: false,
-        accessories: false,
-        humanization: false,
-        voice_id: "Achird",
-        appearance_locked: true
-      }
-    ],
-    rules: {
-      swap_characters: false,
-      swap_dialogue: false,
-      swap_voices: false,
-      lip_sync: "only_active_speaker",
-      simultaneous_speech: false,
-      add_scene_elements: false,
-      modify_appearance: false,
-      modify_set: false
-    },
-    sequence: seq
-  };
-
-  document.getElementById("saida").value = JSON.stringify(json, null, 2);
-  document.getElementById("status").textContent = "JSON gerado. Pronto para copiar.";
-}
-
-function buildSeq(first, firstLine, firstTone, second, secondLine, secondTone) {
-
-  const voiceFirst  = first === "cat" ? "Rasalgethi" : "Achird";
-  const voiceSecond = second === "cat" ? "Rasalgethi" : "Achird";
-  const posFirst    = first === "cat" ? "LEFT" : "RIGHT";
-  const posSecond   = second === "cat" ? "LEFT" : "RIGHT";
-  const labelFirst  = first === "cat" ? "character_LEFT" : "character_RIGHT";
-  const labelSecond = second === "cat" ? "character_LEFT" : "character_RIGHT";
-
-  return [
-    {
-      timestamp: "0s-3s",
-      character: labelFirst,
-      position: posFirst,
-      voice: voiceFirst,
-      action: "speaks",
-      tone: firstTone,
-      line: firstLine,
-      lip_sync: true,
-      other_character: "watches silently, no mouth movement"
-    },
-    {
-      timestamp: "3s-4s",
-      character: labelSecond,
-      position: posSecond,
-      action: "watches_silently",
-      lip_sync: false,
-      expression: "listening attentive"
-    },
-    {
-      timestamp: "4s-6s",
-      character: labelSecond,
-      position: posSecond,
-      voice: voiceSecond,
-      action: "speaks",
-      tone: secondTone,
-      line: secondLine,
-      lip_sync: true,
-      other_character: "watches silently, no mouth movement"
-    },
-    {
-      timestamp: "6s-8s",
-      action: "both_react_naturally",
-      characters: [labelFirst, labelSecond],
-      movement: "subtle natural reaction",
-      lip_sync: false
-    }
-  ];
-}
-
-function copiar() {
-  const ta = document.getElementById("saida");
-  if (!ta.value) { alert("Gere o prompt primeiro!"); return; }
-  ta.select();
-  document.execCommand("copy");
-  const s = document.getElementById("status");
-  s.textContent = "Copiado!";
-  setTimeout(() => { s.textContent = ""; }, 2000);
-}
-
-function limpar() {
-  document.getElementById("gato").value = "";
-  document.getElementById("cachorro").value = "";
-  document.getElementById("saida").value = "";
-  document.getElementById("status").textContent = "";
-}
-
+function updateClock(){const t=new Date().toLocaleTimeString('pt-BR',{hour12:false,timeZone:'America/Manaus'});document.getElementById('clock').textContent='Manaus '+t}
+updateClock();setInterval(updateClock,1000);
 </script>
-
 </body>
 </html>
